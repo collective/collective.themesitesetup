@@ -37,7 +37,7 @@ setup(
         'Products.GenericSetup',
         'setuptools',
         'z3c.form',
-        'zope.app.i18n',
+        'zope.app.i18n<4.0.0',
         'zope.app.localpermission',
         'zope.event',
         'zope.globalrequest',
