@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.4.2 (unreleased)
+1.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Pin zope.app.i18n < 4.0.0
+  [datakurre]
 
 
 1.4.1 (2017-04-11)
