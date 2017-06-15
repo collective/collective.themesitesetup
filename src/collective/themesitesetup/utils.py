@@ -180,7 +180,7 @@ def getMessageCatalogs(locales):
         for po in directory.listDirectory():
             if not po.endswith('.po') or not directory.isFile(po):
                 continue
-            domain = po.split('.')[0]
+            domain = po.rsplit('.', 1)[0]
             catalogs.setdefault(domain, {})
             catalogs[domain][language] = MessageCatalog(language, domain)
             for msg in pofile(str(directory.readFile(po))):
