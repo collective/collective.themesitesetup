@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5.1 (unreleased)
+1.5.1 (2017-06-15)
 ------------------
 
 - Fix issue where it was not possible to install message catalogs with dot in domain
