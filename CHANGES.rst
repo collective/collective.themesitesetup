@@ -4,7 +4,8 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where it was not possible to install message catalogs with dot in domain
+  [datakurre]
 
 
 1.5.0 (2017-05-27)
