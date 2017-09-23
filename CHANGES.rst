@@ -4,7 +4,10 @@ Changelog
 1.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change to always unregister all themesitesetup based utilities on theme
+  deactivation instead of the previous behavior to only unregister those
+  currently desfined in theme
+  [datakurre]
 
 
 1.5.1 (2017-06-15)
