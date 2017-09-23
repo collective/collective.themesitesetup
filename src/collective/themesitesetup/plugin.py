@@ -208,12 +208,14 @@ class GenericSetupPlugin(object):
             portal_setup.runAllImportStepsFromProfile(
                 None, purge_old=False, archive=tarball)
 
-        # Unregister permissions
+        # Unregister ALL themesitesetup based permissions
         sm = getSiteManager()
-        for key, value in getPermissions(settings).items():
-            util = sm.queryUtility(IPermission, name=key)
+        permissions = getPermissions(settings)
+        for key, util in sm.getUtilitiesFor(IPermission):
             if isinstance(util, Permission) or isinstance(util, LocalPermission):  # noqa
                 name = str('collective.themesitesetup.permission.' + key)
+                if key not in permissions and name not in sm.objectIds():
+                    continue  # Not a themesitesetup created permission
                 if name in sm.objectIds():
                     sm._delObject(name, suppress_events=True)
                 # Note: The following lines may look weird, but exist because
@@ -224,29 +226,22 @@ class GenericSetupPlugin(object):
                     util, provided=IPermission, name=key)
                 sm.utilities.unsubscribe((), IPermission, util)
 
-        # Unregister locales
-        localesDirectoryName = DEFAULT_ENABLED_LOCALES_NAME
-        if 'locales' in settings:
-            localesDirectoryName = settings['locales']
-
-        if res.isDirectory(localesDirectoryName):
-            catalogs = getMessageCatalogs(res[localesDirectoryName])
-            for domain in catalogs:
-                util = sm.queryUtility(ITranslationDomain, name=domain)
-                if isinstance(util, TranslationDomain):
-                    for language in catalogs[domain]:
-                        name = '.'.join(['collective.themesitesetup.catalog',
-                                         res.__name__, domain, language])
-                        if name in util:
-                            try:
-                                del util[name]
-                            except ValueError:
-                                pass
-                    name = str('collective.themesitesetup.domain.' + domain)
-                    if name in sm.objectIds():
-                        sm._delObject(name, suppress_events=True)
-                    sm.unregisterUtility(
-                        util, provided=ITranslationDomain, name=domain)
+        # Unregister ALL themesitesetup based locales
+        for domain, util in sm.getUtilitiesFor(ITranslationDomain):
+            util = sm.queryUtility(ITranslationDomain, name=domain)
+            if isinstance(util, TranslationDomain):
+                for name in util:
+                    if not name.startswith('collective.themesitesetup.catalog.'):  # noqa
+                        continue  # not a themesitesetup created domain
+                    try:
+                        del util[name]
+                    except ValueError:
+                        pass
+                name = str('collective.themesitesetup.domain.' + domain)
+                if name in sm.objectIds():
+                    sm._delObject(name, suppress_events=True)
+                sm.unregisterUtility(
+                    util, provided=ITranslationDomain, name=domain)
 
     def onRequest(self, request, theme, settings, dependenciesSettings):
         # Ensure that TTW permissions are registered also as Zope 2 permissions
