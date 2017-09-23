@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5.2 (unreleased)
+2.0.0 (2017-09-24)
 ------------------
 
 - Change to always unregister all themesitesetup based utilities on theme
