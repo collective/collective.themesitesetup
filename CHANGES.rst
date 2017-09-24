@@ -4,7 +4,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where uninstalling theme raised error because unregistering
+  localizations mutated list it was iterating
+  [datakurre]
 
 
 2.0.0 (2017-09-24)
