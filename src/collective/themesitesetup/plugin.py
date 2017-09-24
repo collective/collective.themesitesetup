@@ -211,12 +211,12 @@ class GenericSetupPlugin(object):
         # Unregister ALL themesitesetup based permissions
         sm = getSiteManager()
         permissions = getPermissions(settings)
-        for key, util in sm.getUtilitiesFor(IPermission):
+        for key, util in list(sm.getUtilitiesFor(IPermission)):
             if isinstance(util, Permission) or isinstance(util, LocalPermission):  # noqa
                 name = str('collective.themesitesetup.permission.' + key)
                 if key not in permissions and name not in sm.objectIds():
                     continue  # Not a themesitesetup created permission
-                if name in sm.objectIds():
+                if name in list(sm.objectIds()):
                     sm._delObject(name, suppress_events=True)
                 # Note: The following lines may look weird, but exist because
                 # we used to use transient Persistent class and these were the
@@ -227,10 +227,10 @@ class GenericSetupPlugin(object):
                 sm.utilities.unsubscribe((), IPermission, util)
 
         # Unregister ALL themesitesetup based locales
-        for domain, util in sm.getUtilitiesFor(ITranslationDomain):
+        for domain, util in list(sm.getUtilitiesFor(ITranslationDomain)):
             util = sm.queryUtility(ITranslationDomain, name=domain)
             if isinstance(util, TranslationDomain):
-                for name in util:
+                for name in list(util):
                     if not name.startswith('collective.themesitesetup.catalog.'):  # noqa
                         continue  # not a themesitesetup created domain
                     try:
@@ -238,7 +238,7 @@ class GenericSetupPlugin(object):
                     except ValueError:
                         pass
                 name = str('collective.themesitesetup.domain.' + domain)
-                if name in sm.objectIds():
+                if name in list(sm.objectIds()):
                     sm._delObject(name, suppress_events=True)
                 sm.unregisterUtility(
                     util, provided=ITranslationDomain, name=domain)
