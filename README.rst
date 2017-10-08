@@ -61,6 +61,26 @@ This plugin can also be disabled at any time simply by adding the line
    disabled = true
 
 
+About security
+--------------
+
+The use of this package encourages storing importable Generic Setup profiles
+(and later Dexterity XML models, localization catalogs and other resource
+directories data) in theme. Because all the resources in theme are public with
+know URLs, also all the data in theme meant to be imported by this package are
+made public.
+
+If you don't want to publish your Generic Setup profiles and other theme data
+included only to be imported by this plugin, use the following option
+``self-destruct = true`` to remove all the imported resources after theme
+activation:
+
+.. code:: ini
+
+   [theme:genericsetup]
+   self-destruct = true
+
+
 Dexterity models
 ----------------
 

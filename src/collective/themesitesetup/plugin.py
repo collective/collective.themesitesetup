@@ -20,6 +20,7 @@ from plone.app.theming.interfaces import THEME_RESOURCE_NAME
 from plone.dexterity.fti import DexterityFTIModificationDescription
 from plone import api
 from plone.resource.interfaces import IResourceDirectory
+from plone.resource.interfaces import IWritableResourceDirectory
 from plone.resource.utils import queryResourceDirectory
 from plone.supermodel import loadString
 from plone.supermodel.parser import SupermodelParseError
@@ -72,6 +73,11 @@ class GenericSetupPlugin(object):
         if not isEnabled(settings):
             return
 
+        # Remove imported folders not-required on run-time
+        autocleanup = (settings.get('self-destruct') or '').lower() in (
+            'true', 'yes', 'on', '1'
+        )
+
         # Register permissions
         sm = getSiteManager()
         for key, value in getPermissions(settings).items():
@@ -102,6 +108,9 @@ class GenericSetupPlugin(object):
             portal_setup = api.portal.get_tool('portal_setup')
             portal_setup.runAllImportStepsFromProfile(
                 None, purge_old=False, archive=tarball)
+            # Self-destruct imported profile
+            if autocleanup and IWritableResourceDirectory.providedBy(res):
+                del res[directoryName]
 
         # Register locales
         localesDirectoryName = DEFAULT_ENABLED_LOCALES_NAME
@@ -131,6 +140,9 @@ class GenericSetupPlugin(object):
                         except ValueError:
                             pass
                     util[name] = catalogs[domain][language]
+            # Self-destruct imported catalogs
+            if autocleanup and IWritableResourceDirectory.providedBy(res):
+                del res[localesDirectoryName]
 
         # Update Dexterity models
         modelsDirectoryName = DEFAULT_ENABLED_MODELS_NAME
@@ -169,6 +181,9 @@ class GenericSetupPlugin(object):
                 elif overwrite:
                     fti.model_source = model
                     notify(ObjectModifiedEvent(fti, desc))
+            # Self-destruct imported models
+            if autocleanup and IWritableResourceDirectory.providedBy(res):
+                del res[modelsDirectoryName]
 
         # Copy resources
         resourcesDirectoryName = DEFAULT_ENABLED_RESOURCES_NAME
@@ -182,6 +197,9 @@ class GenericSetupPlugin(object):
             # Invalidate site layout cache of plone.app.blocks
             portal_catalog = api.portal.get_tool('portal_catalog')
             portal_catalog._increment_counter()
+            # Self-desctruct imported resources
+            if autocleanup and IWritableResourceDirectory.providedBy(res):
+                del res[resourcesDirectoryName]
 
     def onDisabled(self, theme, settings, dependenciesSettings):  # noqa
         res = queryResourceDirectory(THEME_RESOURCE_NAME, theme)
