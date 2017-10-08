@@ -4,7 +4,9 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add feature to remove imported directories after theme activation to not
+  expose those by theme traverser
+  [Asko Soukka]
 
 
 2.0.1 (2017-09-24)
