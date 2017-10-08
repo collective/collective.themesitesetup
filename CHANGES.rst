@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.2 (unreleased)
+2.1.0 (2017-10-08)
 ------------------
 
 - Add feature to remove imported directories after theme activation to not
