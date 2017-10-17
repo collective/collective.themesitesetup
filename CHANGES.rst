@@ -4,7 +4,9 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where theme defined permissions were not properly activated on
+  first theme activation due to theme settings cache
+  [datakurre]
 
 
 2.1.0 (2017-10-08)
@@ -12,7 +14,7 @@ Changelog
 
 - Add feature to remove imported directories after theme activation to not
   expose those by theme traverser
-  [Asko Soukka]
+  [datakurre]
 
 
 2.0.1 (2017-09-24)
