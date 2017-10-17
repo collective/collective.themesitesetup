@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='collective.themesitesetup',
-    version='2.1.1.dev0',
+    version='2.1.1',
     description='GenericSetup profiles for plone.app.theming',
     long_description=(open('README.rst').read() + '\n' +
                       open('CHANGES.rst').read()),
