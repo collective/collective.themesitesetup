@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.1 (unreleased)
+2.1.1 (2017-10-18)
 ------------------
 
 - Fix issue where theme defined permissions were not properly activated on
