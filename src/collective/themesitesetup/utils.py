@@ -151,8 +151,7 @@ def createTarball(directory):
     return fb.getvalue()
 
 
-@cache('permissions')
-def getPermissions(settings):
+def _getPermissions(settings):
     if 'permissions' in settings:
 
         def split(s):
@@ -164,6 +163,11 @@ def getPermissions(settings):
                      if not permission.strip().startswith('#')])
     else:
         return {}
+
+
+@cache('permissions')
+def getPermissions(settings):
+    return _getPermissions(settings)
 
 
 def getMessageCatalogs(locales):

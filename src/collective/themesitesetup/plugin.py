@@ -6,15 +6,16 @@ from collective.themesitesetup.interfaces import DEFAULT_ENABLED_LOCALES_NAME
 from collective.themesitesetup.interfaces import DEFAULT_ENABLED_MODELS_NAME
 from collective.themesitesetup.interfaces import DEFAULT_ENABLED_PROFILE_NAME
 from collective.themesitesetup.interfaces import DEFAULT_ENABLED_RESOURCES_NAME
+from collective.themesitesetup.utils import copyResources
 from collective.themesitesetup.utils import createTarball
 from collective.themesitesetup.utils import getMessageCatalogs
 from collective.themesitesetup.utils import getPermissions
+from collective.themesitesetup.utils import _getPermissions
 from collective.themesitesetup.utils import getSettings
 from collective.themesitesetup.utils import isEnabled
 from collective.themesitesetup.utils import overwriteModels
 from collective.themesitesetup.utils import overwriteResources
 from collective.themesitesetup.utils import purgeResources
-from collective.themesitesetup.utils import copyResources
 from plone.app.theming.interfaces import IThemePlugin
 from plone.app.theming.interfaces import THEME_RESOURCE_NAME
 from plone.dexterity.fti import DexterityFTIModificationDescription
@@ -80,7 +81,7 @@ class GenericSetupPlugin(object):
 
         # Register permissions
         sm = getSiteManager()
-        for key, value in getPermissions(settings).items():
+        for key, value in _getPermissions(settings).items():
             util = sm.queryUtility(IPermission, name=key)
             if util is None:
                 name = str('collective.themesitesetup.permission.' + key)
