@@ -191,7 +191,9 @@ def getMessageCatalogs(locales):
                 if not msg.msgstr:
                     continue  # Disallows overrides with empty strings
                 catalogs[domain][language].setMessage(
-                    msg.msgid, unicode(msg.msgstr, 'utf-8', 'ignore'))
+                    unicode(msg.msgid, 'utf-8', 'ignore'),
+                    unicode(msg.msgstr, 'utf-8', 'ignore')
+                )
 
     return catalogs
 
