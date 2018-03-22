@@ -6,7 +6,6 @@ Changelog
 
 - Nothing changed yet.
 
-
 2.1.2 (2018-03-22)
 ------------------
 
