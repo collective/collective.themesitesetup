@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.2 (unreleased)
+2.1.2 (2018-03-22)
 ------------------
 
 - Fix to ensure that dynamically created message catalogs can have unicode message ids
