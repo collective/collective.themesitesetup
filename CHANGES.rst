@@ -4,7 +4,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix to ensure that dynamically created message catalogs can have unicode message ids
+  [datakurre]
 
 
 2.1.1 (2017-10-18)
