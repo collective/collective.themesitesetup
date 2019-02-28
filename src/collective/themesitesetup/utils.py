@@ -3,7 +3,6 @@ from App.config import getConfiguration
 from collective.themesitesetup.interfaces import NO
 from collective.themesitesetup.interfaces import PLUGIN_NAME
 from collective.themesitesetup.interfaces import YES
-from ConfigParser import SafeConfigParser
 from io import BytesIO
 from plone.app.theming.interfaces import THEME_RESOURCE_NAME
 from plone.app.theming.plugins.utils import getPlugins
@@ -18,6 +17,16 @@ try:
     CACHE = True
 except ImportError:
     CACHE = False
+
+try:
+    # Python 3.  Watch out for DeprecationWarning:
+    # The SafeConfigParser class has been renamed to ConfigParser in
+    # Python 3.2. This alias will be removed in future versions.
+    # Use ConfigParser directly instead.
+    from configparser import ConfigParser as SafeConfigParser
+except ImportError:
+    # Python 2
+    from ConfigParser import SafeConfigParser
 
 
 def cache(key):

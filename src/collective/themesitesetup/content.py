@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from ConfigParser import ConfigParser
 from Products.CMFCore.exportimport.content import StructureFolderWalkingAdapter
 from Products.CMFCore.exportimport.content import encode_if_needed
 from Products.GenericSetup.content import FolderishExporterImporter
@@ -16,6 +15,17 @@ from plone.dexterity.utils import createContentInContainer
 from zope.component import adapter
 from zope.interface import implementer
 import Acquisition
+
+
+try:
+    # Python 3.  Watch out for DeprecationWarning:
+    # The SafeConfigParser class has been renamed to ConfigParser in
+    # Python 3.2. This alias will be removed in future versions.
+    # Use ConfigParser directly instead.
+    from configparser import ConfigParser
+except ImportError:
+    # Python 2
+    from ConfigParser import ConfigParser
 
 
 class ManagedFolderishExporterImporter(FolderishExporterImporter):
