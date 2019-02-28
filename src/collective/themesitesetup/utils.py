@@ -8,9 +8,12 @@ from plone.app.theming.interfaces import THEME_RESOURCE_NAME
 from plone.app.theming.plugins.utils import getPlugins
 from plone.resource.manifest import MANIFEST_FILENAME
 from polib import pofile
+from Products.CMFPlone.utils import safe_unicode
 from zope.app.i18n.messagecatalog import MessageCatalog
 from zope.globalrequest import getRequest
 from six.moves import filter
+
+import six
 import tarfile
 
 try:
@@ -77,8 +80,22 @@ def getPluginSettings(themeDirectory, plugins=None):
         parser = SafeConfigParser()
         fp = themeDirectory.openFile(MANIFEST_FILENAME)
 
+        if six.PY2:
+            try:
+                parser.readfp(fp)
+            finally:
+                fp.close()
+
+        else:
+            # configparser can only read/write text
+            # but in py3 plone.resource objects are BytesIO objects.
+            try:
+                data = fp.read()
+            finally:
+                fp.close()
+            parser.read_string(safe_unicode(data))
+
         try:
-            parser.readfp(fp)
             for section in parser.sections():
                 manifestContents[section] = {}
 
