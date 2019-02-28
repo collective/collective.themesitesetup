@@ -36,6 +36,7 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from zope.security.interfaces import IPermission
 from zope.security.permission import Permission
 import logging
+import six
 
 logger = logging.getLogger('collective.themesitesetup')
 
@@ -159,7 +160,7 @@ class GenericSetupPlugin(object):
                 fti = types_tool.get(name[:-4])
                 if not fti:
                     continue
-                model = unicode(directory.readFile(name), 'utf-8', 'ignore')
+                model = six.text_type(directory.readFile(name), 'utf-8', 'ignore')
                 if fti.model_source == model:
                     continue
                 try:

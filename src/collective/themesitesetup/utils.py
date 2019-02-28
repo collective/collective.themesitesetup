@@ -10,6 +10,7 @@ from plone.resource.manifest import MANIFEST_FILENAME
 from polib import pofile
 from zope.app.i18n.messagecatalog import MessageCatalog
 from zope.globalrequest import getRequest
+from six.moves import filter
 import tarfile
 
 try:
@@ -200,8 +201,8 @@ def getMessageCatalogs(locales):
                 if not msg.msgstr:
                     continue  # Disallows overrides with empty strings
                 catalogs[domain][language].setMessage(
-                    unicode(msg.msgid, 'utf-8', 'ignore'),
-                    unicode(msg.msgstr, 'utf-8', 'ignore')
+                    six.text_type(msg.msgid, 'utf-8', 'ignore'),
+                    six.text_type(msg.msgstr, 'utf-8', 'ignore')
                 )
 
     return catalogs

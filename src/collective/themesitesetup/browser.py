@@ -19,6 +19,8 @@ from zope.schema.vocabulary import SimpleVocabulary
 import Acquisition
 import re
 import tarfile
+from six.moves import filter
+from six.moves import map
 
 
 # noinspection PyUnusedLocal,PyPep8Naming
@@ -26,7 +28,7 @@ import tarfile
 def genericSetupExportStepsSource(context):
     portal_setup = api.portal.get_tool('portal_setup')
     export_steps = portal_setup.listExportSteps()
-    return SimpleVocabulary(map(SimpleTerm, map(str, export_steps)))
+    return SimpleVocabulary(list(map(SimpleTerm, list(map(str, export_steps)))))
 
 
 # noinspection PyUnusedLocal,PyPep8Naming
@@ -34,7 +36,7 @@ def genericSetupExportStepsSource(context):
 def genericSetupImportStepsSource(context):
     portal_setup = api.portal.get_tool('portal_setup')
     export_steps = portal_setup.listImportSteps()
-    return SimpleVocabulary(map(SimpleTerm, map(str, export_steps)))
+    return SimpleVocabulary(list(map(SimpleTerm, list(map(str, export_steps)))))
 
 
 # noinspection PyUnusedLocal,PyPep8Naming
@@ -49,12 +51,12 @@ def resourceDirectorySubDirectoriesSource(context):
     files = context.listDirectory()
     directories = [path for path in files
                    if context.isDirectory(path)]
-    return SimpleVocabulary(map(SimpleTerm, map(str, directories)))
+    return SimpleVocabulary(list(map(SimpleTerm, list(map(str, directories)))))
 
 
 class IExportForm(model.Schema):
 
-    directory = schema.BytesLine(
+    directory = schema.NativeStringLine(
         title=u'Directory name',
         description=u'Give name for the theme sub-directory, where '
                     u'the generated export should be saved to. '
@@ -99,7 +101,7 @@ class ExportForm(AutoExtensibleForm, form.Form):
             return
 
         directoryName = (data.get('directory') or '').strip()
-        exportSteps = filter(bool, map(str.strip, data.get('steps') or []))
+        exportSteps = list(filter(bool, list(map(str.strip, data.get('steps') or []))))
 
         if not directoryName or not exportSteps:
             return
@@ -197,7 +199,7 @@ class ImportForm(AutoExtensibleForm, form.Form):
             return
 
         directoryName = (data.get('directory') or '').strip()
-        importSteps = filter(bool, map(str.strip, data.get('steps') or []))
+        importSteps = list(filter(bool, list(map(str.strip, data.get('steps') or []))))
 
         if not directoryName or not importSteps:
             return
