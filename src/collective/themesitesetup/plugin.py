@@ -31,7 +31,7 @@ from zope.component import getSiteManager
 from zope.component import queryUtility
 from zope.event import notify
 from zope.i18n import ITranslationDomain
-from zope.interface import implements
+from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.security.interfaces import IPermission
 from zope.security.permission import Permission
@@ -40,6 +40,7 @@ import logging
 logger = logging.getLogger('collective.themesitesetup')
 
 
+@implementer(IThemePlugin)
 # noinspection PyPep8Naming
 class GenericSetupPlugin(object):
     """This plugin can be used to import generic setup profiles
@@ -53,8 +54,6 @@ class GenericSetupPlugin(object):
         uninstall =
 
     """
-
-    implements(IThemePlugin)
 
     dependencies = ()
 
