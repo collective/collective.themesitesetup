@@ -1,16 +1,17 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.themesitesetup">
 
-  <class class="Products.ATContentTypes.content.newsitem.ATNewsItem">
+  <class zcml:condition="installed Products.ATContentTypes" class="Products.ATContentTypes.content.newsitem.ATNewsItem">
     <implements interface="Products.GenericSetup.interfaces.IDAVAware"/>
   </class>
 
-  <class class="Products.PageTemplates.ZopePageTemplate.ZopePageTemplate">
+  <class zcml:condition="installed Products.PageTemplates" class="Products.PageTemplates.ZopePageTemplate.ZopePageTemplate">
     <implements interface="Products.GenericSetup.interfaces.IDAVAware"/>
   </class>
 
-  <class class="Products.PythonScripts.PythonScript.PythonScript">
+  <class zcml:condition="installed Products.PythonScripts" class="Products.PythonScripts.PythonScript.PythonScript">
     <implements interface="Products.GenericSetup.interfaces.IDAVAware"/>
   </class>
 
